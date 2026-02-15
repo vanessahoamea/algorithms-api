@@ -1,0 +1,248 @@
+definitions:
+  handlers.HandleKnapsack.requestBody:
+    properties:
+      capacity:
+        type: integer
+      values:
+        items:
+          type: integer
+        type: array
+      weights:
+        items:
+          type: integer
+        type: array
+    type: object
+  handlers.HandleNQueens.requestBody:
+    properties:
+      blocked:
+        items:
+          items:
+            type: integer
+          type: array
+        type: array
+      "n":
+        type: integer
+    type: object
+  handlers.HandleShortestPath.requestBody:
+    properties:
+      edges:
+        items:
+          items:
+            type: integer
+          type: array
+        type: array
+      "n":
+        type: integer
+      source:
+        type: integer
+    type: object
+  handlers.HandleStatus.StatusResponse:
+    properties:
+      status:
+        type: string
+    type: object
+  solvers.KnapsackResult:
+    properties:
+      binary_solution:
+        $ref: '#/definitions/solvers.KnapsackResultData-int'
+      formatted_output:
+        type: string
+      fractional_solution:
+        $ref: '#/definitions/solvers.KnapsackResultData-float64'
+      message:
+        type: string
+    type: object
+  solvers.KnapsackResultData-float64:
+    properties:
+      max_value:
+        type: number
+      max_weight:
+        type: number
+      selected_items:
+        items:
+          $ref: '#/definitions/solvers.KnapsackResultItem-float64'
+        type: array
+    type: object
+  solvers.KnapsackResultData-int:
+    properties:
+      max_value:
+        type: integer
+      max_weight:
+        type: integer
+      selected_items:
+        items:
+          $ref: '#/definitions/solvers.KnapsackResultItem-int'
+        type: array
+    type: object
+  solvers.KnapsackResultItem-float64:
+    properties:
+      number:
+        type: integer
+      ratio:
+        type: number
+      value:
+        type: number
+      weight:
+        type: number
+    type: object
+  solvers.KnapsackResultItem-int:
+    properties:
+      number:
+        type: integer
+      ratio:
+        type: number
+      value:
+        type: integer
+      weight:
+        type: integer
+    type: object
+  solvers.NQueensResult:
+    properties:
+      formatted_output:
+        type: string
+      iterations:
+        type: integer
+      message:
+        type: string
+      solution:
+        items:
+          $ref: '#/definitions/solvers.NQueensResultQueen'
+        type: array
+    type: object
+  solvers.NQueensResultQueen:
+    properties:
+      col:
+        type: integer
+      domain:
+        items:
+          type: integer
+        type: array
+      row:
+        type: integer
+    type: object
+  solvers.ShortestPathResult:
+    properties:
+      formatted_output:
+        type: string
+      message:
+        type: string
+      solution:
+        items:
+          $ref: '#/definitions/solvers.ShortestPathResultNode'
+        type: array
+    type: object
+  solvers.ShortestPathResultNode:
+    properties:
+      distance:
+        type: integer
+      node:
+        type: integer
+      path:
+        items:
+          type: integer
+        type: array
+    type: object
+  utils.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: A simple Go API that solves common Computer Science problems.
+  title: Algorithms API
+  version: "1.0"
+paths:
+  /knapsack:
+    post:
+      consumes:
+      - application/json
+      description: Computes the solutions for the specified Knapsack problem instance,
+        handling both the Binary and Fractional variants of the problem.
+      parameters:
+      - description: '`values` represents the list of values of each object, `weights`
+          represents the list of weights of each object, `capacity` represents the
+          maximum weight the knapsack can hold.'
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.HandleKnapsack.requestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/solvers.KnapsackResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrorResponse'
+      summary: Solves Knapsack problem
+  /n-queens:
+    post:
+      consumes:
+      - application/json
+      description: Computes the solution for the specified N Queens problem instance,
+        using the Forward Checking algorithm with MRV sorting.
+      parameters:
+      - description: '`n` represents the number of queens (one for each row/column),
+          `blocked` represents the blocked squares on the chessboard.'
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.HandleNQueens.requestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/solvers.NQueensResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrorResponse'
+      summary: Solves N Queens problem
+  /shortest-path:
+    post:
+      consumes:
+      - application/json
+      description: Computes the solution for the specified single-source Shortest
+        Path problem instance, using Dijkstra's algorithm.
+      parameters:
+      - description: '`n` represents the number of nodes in the graph, `edges` represents
+          the directed edges in the graph in a [start, end, weight] format, `source`
+          represents the source node from which all paths will be calculated.'
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.HandleShortestPath.requestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/solvers.ShortestPathResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrorResponse'
+      summary: Solves Shortest Path problem
+  /status:
+    get:
+      description: Used for testing purposes, when the user wants to check whether
+        the server is currently running.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.HandleStatus.StatusResponse'
+      summary: Returns the health status of the server
+swagger: "2.0"

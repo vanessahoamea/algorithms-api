@@ -6,12 +6,12 @@ import (
 	"net/http"
 )
 
-func RespondWithError(w http.ResponseWriter, code int, message string) {
-	type errorResponse struct {
-		Error string `json:"error"`
-	}
+type ErrorResponse struct {
+	Error string `json:"error"`
+}
 
-	RespondWithJSON(w, code, errorResponse{
+func RespondWithError(w http.ResponseWriter, code int, message string) {
+	RespondWithJSON(w, code, ErrorResponse{
 		Error: message,
 	})
 }

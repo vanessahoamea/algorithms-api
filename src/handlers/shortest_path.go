@@ -9,6 +9,14 @@ import (
 	"github.com/vanessahoamea/algorithms-api/src/utils"
 )
 
+// @Summary Solves Shortest Path problem
+// @Description Computes the solution for the specified single-source Shortest Path problem instance, using Dijkstra's algorithm.
+// @Accept json
+// @Produce json
+// @Param request body handlers.HandleShortestPath.requestBody true "`n` represents the number of nodes in the graph, `edges` represents the directed edges in the graph in a [start, end, weight] format, `source` represents the source node from which all paths will be calculated."
+// @Success 200 {object} solvers.ShortestPathResult
+// @Failure 400 {object} utils.ErrorResponse
+// @Router /shortest-path [post]
 func HandleShortestPath(w http.ResponseWriter, r *http.Request) {
 	type requestBody struct {
 		N      int      `json:"n"`

@@ -9,6 +9,14 @@ import (
 	"github.com/vanessahoamea/algorithms-api/src/utils"
 )
 
+// @Summary Solves N Queens problem
+// @Description Computes the solution for the specified N Queens problem instance, using the Forward Checking algorithm with MRV sorting.
+// @Accept json
+// @Produce json
+// @Param request body handlers.HandleNQueens.requestBody true "`n` represents the number of queens (one for each row/column), `blocked` represents the blocked squares on the chessboard."
+// @Success 200 {object} solvers.NQueensResult
+// @Failure 400 {object} utils.ErrorResponse
+// @Router /n-queens [post]
 func HandleNQueens(w http.ResponseWriter, r *http.Request) {
 	type requestBody struct {
 		N       int     `json:"n"`

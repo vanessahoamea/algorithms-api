@@ -9,6 +9,14 @@ import (
 	"github.com/vanessahoamea/algorithms-api/src/utils"
 )
 
+// @Summary Solves Knapsack problem
+// @Description Computes the solutions for the specified Knapsack problem instance, handling both the Binary and Fractional variants of the problem.
+// @Accept json
+// @Produce json
+// @Param request body handlers.HandleKnapsack.requestBody true "`values` represents the list of values of each object, `weights` represents the list of weights of each object, `capacity` represents the maximum weight the knapsack can hold."
+// @Success 200 {object} solvers.KnapsackResult
+// @Failure 400 {object} utils.ErrorResponse
+// @Router /knapsack [post]
 func HandleKnapsack(w http.ResponseWriter, r *http.Request) {
 	type requestBody struct {
 		Values   []int `json:"values"`

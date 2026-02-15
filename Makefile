@@ -10,3 +10,6 @@ run:
 
 test:
 	cd src/solvers && go test -run $(regexp)
+
+swagger:
+	cd src && swag init
