@@ -45,6 +45,9 @@ func main() {
 	v1Router := chi.NewRouter()
 
 	v1Router.Get("/status", handlers.HandleStatus)
+	v1Router.Post("/n-queens", handlers.HandleNQueens)
+	v1Router.Post("/knapsack", handlers.HandleKnapsack)
+	v1Router.Post("/shortest-path", handlers.HandleShortestPath)
 
 	router.Mount("/v1", v1Router)
 
