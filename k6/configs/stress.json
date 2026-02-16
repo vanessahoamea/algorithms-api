@@ -1,0 +1,15 @@
+{
+    "stages": [
+        { "duration": "30s", "target": 50 },
+        { "duration": "2m", "target": 50 },
+        { "duration": "30s", "target": 100 },
+        { "duration": "2m", "target": 100 },
+        { "duration": "30s", "target": 150 },
+        { "duration": "2m", "target": 150 },
+        { "duration": "2m", "target": 0 }
+    ],
+    "thresholds": {
+        "checks": ["rate >= 0.99"],
+        "http_req_duration": ["p(99) < 2000", "p(90) < 300", "avg < 150"]
+    }
+}

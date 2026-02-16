@@ -7,23 +7,12 @@ import { generateKnapsackInstances } from "./helpers/knapsack";
 import { generateShortestPathInstances } from "./helpers/shortest_path";
 
 const BASE_URL = __ENV.BASE_URL;
+const OPTIONS_FILE = `../configs/${__ENV.OPTIONS_FILE}`;
 const DEFAULT_HEADERS = {
     "Content-Type": "application/json"
 };
 
-export const options = {
-    "stages": [
-        { "duration": "30s", "target": 25 },
-        { "duration": "1m", "target": 100 },
-        { "duration": "2m", "target": 100 },
-        { "duration": "1m", "target": 25 },
-        { "duration": "30s", "target": 0 }
-    ],
-    "thresholds": {
-        "checks": ["rate >= 0.99"],
-        "http_req_duration": ["p(99) < 1000", "p(90) < 200", "avg < 150"]
-    }
-};
+export const options = JSON.parse(open(OPTIONS_FILE));
 
 const nQueensInstances = new SharedArray("N Queens problem instances", () => {
     return generateNQueensInstances(100);

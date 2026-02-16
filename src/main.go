@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
@@ -69,8 +70,10 @@ func main() {
 
 	// initializing server
 	server := &http.Server{
-		Handler: router,
-		Addr:    ":" + port,
+		Handler:      router,
+		Addr:         ":" + port,
+		ReadTimeout:  30 * time.Second,
+		WriteTimeout: 30 * time.Second,
 	}
 
 	log.Printf("Server starting on port %s...\n", port)

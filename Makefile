@@ -23,4 +23,5 @@ performance:
 		K6_WEB_DASHBOARD_EXPORT=dashboard.html \
 		k6 run \
 		-e BASE_URL=${BASE_URL} \
+		-e OPTIONS_FILE=${OPTIONS_FILE} \
 		dist/script.js
