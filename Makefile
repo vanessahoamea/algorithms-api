@@ -1,3 +1,5 @@
+-include .env
+
 # Variable declarations
 regexp ?= Test.*
 
@@ -13,3 +15,12 @@ test:
 
 swagger:
 	cd src && swag init
+
+performance:
+	cd k6 \
+		&& npm run build \
+		&& K6_WEB_DASHBOARD=true \
+		K6_WEB_DASHBOARD_EXPORT=dashboard.html \
+		k6 run \
+		-e BASE_URL=${BASE_URL} \
+		dist/script.js

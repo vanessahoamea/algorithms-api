@@ -1,2 +1,6 @@
 bin/
 .env
+.DS_Store
+k6/dist
+k6/node_modules
+k6/dashboard.html

@@ -1,0 +1,26 @@
+{
+  "name": "algorithms-api",
+  "version": "1.0.0",
+  "description": "Load and performance tests for the Go Algorithms API.",
+  "homepage": "https://github.com/vanessahoamea/algorithms-api#readme",
+  "bugs": {
+    "url": "https://github.com/vanessahoamea/algorithms-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanessahoamea/algorithms-api.git"
+  },
+  "license": "ISC",
+  "author": "Vanessa Hoamea",
+  "type": "commonjs",
+  "main": "ts",
+  "scripts": {
+    "build": "node esbuild.mjs"
+  },
+  "devDependencies": {
+    "@types/k6": "^1.6.0",
+    "@types/node": "^25.2.3",
+    "esbuild": "^0.27.3",
+    "typescript": "^5.9.3"
+  }
+}
