@@ -32,14 +32,14 @@ func main() {
 		}
 	}
 
-	port := os.Getenv("APP_PORT")
+	port := os.Getenv("PORT")
 	if port == "" {
-		log.Fatal("Environment error: APP_PORT not found")
+		log.Fatal("Environment error: PORT not found")
 	}
 
-	baseUrl := os.Getenv("APP_BASE_URL")
+	baseUrl := os.Getenv("BASE_URL")
 	if port == "" {
-		log.Fatal("Environment error: APP_BASE_URL not found")
+		log.Fatal("Environment error: BASE_URL not found")
 	}
 
 	// initializing router
