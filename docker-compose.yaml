@@ -1,0 +1,39 @@
+services:
+  server:
+    container_name: server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    environment:
+      - APP_ENV=staging
+      - PORT=${APP_PORT}
+      - BASE_URL=${APP_BASE_URL}
+    networks:
+      - jenkins
+    healthcheck:
+      test: ["CMD", "curl", "-f", "${APP_BASE_URL}/status"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  test:
+    container_name: test
+    build:
+      context: k6
+      dockerfile: Dockerfile
+    ports:
+      - ${K6_PORT}:${K6_PORT}
+    depends_on:
+      server:
+        condition: service_healthy
+    environment:
+      - BASE_URL=${K6_BASE_URL}
+      - OPTIONS_FILE=${OPTIONS_FILE}
+    networks:
+      - jenkins
+
+networks:
+  jenkins:
+    external: true
