@@ -27,7 +27,7 @@ k6:
 		dist/script.js
 
 compose-up:
-	docker compose up --build -d
+	docker compose up --build --exit-code-from test
 
 compose-down:
 	docker compose down
