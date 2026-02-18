@@ -3,4 +3,4 @@ bin/
 .DS_Store
 k6/dist
 k6/node_modules
-k6/dashboard.html
+k6/reports

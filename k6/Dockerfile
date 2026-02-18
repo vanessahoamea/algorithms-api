@@ -21,6 +21,11 @@ WORKDIR /test
 COPY --from=node /build/dist ./dist
 COPY --from=node /build/configs ./configs
 
+RUN mkdir reports
+
+ENV K6_WEB_DASHBOARD=true
+ENV K6_WEB_DASHBOARD_EXPORT=reports/dashboard.html
+
 ENTRYPOINT ["k6", "run"]
 
 CMD ["dist/script.js"]

@@ -33,7 +33,13 @@ services:
       - OPTIONS_FILE=${K6_OPTIONS_FILE}
     networks:
       - jenkins
+    volumes:
+      - algorithms-api-reports:/test/reports
 
 networks:
   jenkins:
+    external: true
+
+volumes:
+  algorithms-api-reports:
     external: true

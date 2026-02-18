@@ -20,7 +20,7 @@ k6:
 	cd k6 \
 		&& npm run build \
 		&& K6_WEB_DASHBOARD=true \
-		K6_WEB_DASHBOARD_EXPORT=dashboard.html \
+		K6_WEB_DASHBOARD_EXPORT=reports/dashboard.html \
 		k6 run \
 		-e BASE_URL=${APP_BASE_URL} \
 		-e OPTIONS_FILE=${K6_OPTIONS_FILE} \
