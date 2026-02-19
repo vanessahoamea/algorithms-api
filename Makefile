@@ -32,4 +32,7 @@ compose-up:
 compose-down:
 	docker compose down
 
+compose-push:
+	docker compose push
+
 .PHONY: k6

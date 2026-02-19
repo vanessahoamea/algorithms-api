@@ -1,5 +1,6 @@
 services:
   server:
+    image: vanessahoamea/algorithms-api-server:latest
     container_name: server
     build:
       context: .
@@ -19,6 +20,7 @@ services:
       retries: 3
 
   test:
+    image: vanessahoamea/algorithms-api-test:latest
     container_name: test
     build:
       context: k6

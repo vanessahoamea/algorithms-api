@@ -41,7 +41,26 @@ pipeline {
         stage('Run Docker Compose') {
             steps {
                 echo 'Building Docker images for Algorithms API server and performance tests...'
-                sh 'make compose-up'
+                catchError(buildResult: 'FAILURE', stageResult: 'SUCCESS') {
+                    sh 'make compose-up'
+                }
+            }
+        }
+
+        stage('Publish HTML Report') {
+            steps {
+                echo 'Checking if k6 HTML report is available...'
+                sh 'ls docker/dashboard.html'
+
+                echo 'Publishing k6 dashboard...'
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'docker',
+                    reportFiles: 'dashboard.html',
+                    reportName: 'k6 Report'
+                ])
             }
         }
     }
@@ -51,24 +70,16 @@ pipeline {
             echo 'Pipeline completed. Stopping containers...'
             sh 'make compose-down'
             sh 'docker ps'
+        }
 
-            echo 'Checking if k6 HTML report is available...'
-            sh 'ls docker/dashboard.html'
-
-            echo 'Publishing k6 dashboard...'
-            publishHTML([
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'docker',
-                reportFiles: 'dashboard.html',
-                reportName: 'k6 Report'
-            ])
+        success {
+            echo 'Pushing images to Docker Hub...'
+            sh 'make compose-push'
         }
 
         failure {
             echo 'Performance tests FAILED!'
-            sh 'docker-compose logs -f'
+            sh 'docker compose logs -f'
         }
     }
 }
