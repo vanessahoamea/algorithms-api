@@ -34,12 +34,8 @@ services:
     networks:
       - jenkins
     volumes:
-      - algorithms-api-reports:/test/reports
+      - ./docker:/test/reports
 
 networks:
   jenkins:
-    external: true
-
-volumes:
-  algorithms-api-reports:
     external: true

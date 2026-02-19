@@ -51,6 +51,19 @@ pipeline {
             echo 'Pipeline completed. Stopping containers...'
             sh 'make compose-down'
             sh 'docker ps'
+
+            echo 'Checking if k6 HTML report is available...'
+            sh 'ls docker/dashboard.html'
+
+            echo 'Publishing k6 dashboard...'
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'docker',
+                reportFiles: 'dashboard.html',
+                reportName: 'k6 Report'
+            ])
         }
 
         failure {
